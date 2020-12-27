@@ -18,5 +18,6 @@ from django.urls import path
 from my_first_django import views
 
 urlpatterns = [
-    path('hello-word', views.hello_word)
+    path('hello-word', views.hello_word),
+    path('hi', views.sort_numbers),
 ]
