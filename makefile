@@ -19,11 +19,10 @@ migrate: ## Make and run migrations
 	$(PYTHON) manage.py migrate
 
 db-up: ## Pull and start the Docker Postgres container in the background
-	docker pull postgres
-	docker-compose up -d
+	docker-compose run --rm --service-ports --name database db
 
 db-shell: ## Access the Postgres Docker database interactively with psql
-	docker exec -it container_name psql -d $(DBNAME)
+	docker exec -it database psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
 .PHONY: test
 test: ## Run tests
