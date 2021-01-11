@@ -20,6 +20,7 @@ from posts import views as post_views
 
 urlpatterns = [
     path('', local_views.hello_word),
+    path('admin', admin.site.urls),
     path('sort_numbers', local_views.sort_numbers),
     path('hi/<str:name>/<int:age>', local_views.say_hi),
 
