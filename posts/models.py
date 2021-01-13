@@ -7,7 +7,7 @@ from users.models import Profile
 
 class Post(models.Model):
     """ post Model """
-    profile =  models.ForeignKey(to=Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=255)
     photo = models.ImageField(upload_to='posts/photos')
@@ -16,4 +16,4 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title} - {self.profile.user.username}'
+        return f'{self.title} - {self.user.username}'
