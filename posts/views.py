@@ -3,6 +3,8 @@
 # Django
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 # Utilities
 from datetime import datetime
@@ -14,12 +16,15 @@ from posts.forms import PostForm
 from posts.models import Post
 
 
-@login_required
-def list_posts(request):
-    """List existing posts."""
-    posts = Post.objects.all().order_by('-created_at')
+class PostsFeedView(LoginRequiredMixin, ListView):
+    """Return all published posts."""
 
-    return render(request, 'posts/feed.html', {'posts': posts})
+    template_name = 'posts/feed.html'
+    model = Post
+    ordering = ('-created_at',)
+    paginate_by = 2
+    context_object_name = 'posts'
+
 
 @login_required
 def create_post(request):
@@ -28,7 +33,7 @@ def create_post(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('feed')
+            return redirect('posts:feed')
 
     else:
         form = PostForm()
